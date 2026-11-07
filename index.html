@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>MindPulse</title>
+    <style>
+         :root {
+            --m: #7ED8B8;
+            --ml: #EAF6F1;
+            --md: #4A9C80;
+            --bt: #12819a;
+            --sage: #B7D6C8;
+            --mt: #E3F6EE;
+            --bg: #F3FAF7;
+            --tx: #14211C;
+            --card: rgba(255, 255, 255, .84);
+            --bd: rgba(42, 107, 85, .16);
+            --red: #B3261E;
+            --amb: #8A5A00;
+            --fs: 16px;
+            --in: #fff;
+            color-scheme: light
+        }
+        
+         :root[data-theme=dark] {
+            --bg: #0e1a15;
+            --tx: #e8f2ed;
+            --in: #14241d;
+            --bt: #2F6B57;
+            --mt: rgba(126, 216, 184, .14);
+            --card: rgba(143, 179, 163, .12);
+            --red: #ff8a80;
+            --amb: #ffc857;
+            --bd: rgba(143, 179, 163, .35);
+            color-scheme: dark
+        }
+        
+         :root.hc {
+            --bg: #fff;
+            --tx: #000;
+            --card: #fff;
+            --bd: #000;
+            --bt: #004d3a;
+            --in: #fff
+        }
+        
+         :root.hc[data-theme=dark] {
+            --bg: #000;
+            --tx: #fff;
+            --in: #000;
+            --bd: #fff
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        html {
+            font-size: var(--fs)
+        }
+        
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+            background: linear-gradient(135deg, var(--bg), color-mix(in srgb, var(--sage) 28%, var(--bg)));
+            background-attachment: fixed;
+            color: var(--tx);
+            min-height: 100vh;
+            line-height: 1.5
+        }
+        
+        .sr {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0)
+        }
+        
+        .skip {
+            position: absolute;
+            inset-inline-start: 8px;
+            top: -60px;
+            background: var(--bt);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            z-index: 99
+        }
+        
+        .skip:focus {
+            top: 8px
+        }
+        
+         :focus-visible {
+            outline: 3px solid var(--tx);
+            outline-offset: 2px
+        }
+        
+        nav {
+            position: fixed;
+            inset-block: 0;
+            inset-inline-start: 0;
+            width: 210px;
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: var(--card);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-inline-end: 1px solid var(--bd);
+            z-index: 5
+        }
+        
+        nav h2 {
+            margin: 0 8px 12px;
+            font-size: 1.2rem;
+            color: var(--bt)
+        }
+        
+         :root[data-theme=dark] nav h2 {
+            color: var(--m)
+        }
+        
+        nav button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border: 0;
+            border-radius: 12px;
+            background: transparent;
+            color: var(--tx);
+            font: inherit;
+            cursor: pointer;
+            text-align: start
+        }
+        
+        nav button[aria-current=page] {
+            background: var(--bt);
+            color: #fff
+        }
+        
+        nav svg {
+            width: 24px;
+            height: 24px;
+            flex: none
+        }
+        
+        main {
+            margin-inline-start: 210px;
+            padding: 24px;
+            max-width: 1100px
+        }
+        
+        main:focus {
+            outline: none
+        }
+        
+        .glass {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--bd);
+            border-radius: 16px;
+            padding: 16px
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px
+        }
+        
+        h1 {
+            margin: 0 0 16px;
+            font-size: 1.6rem
+        }
+        
+        h3 {
+            margin: 0 0 8px
+        }
+        
+        .btn {
+            background: var(--bt);
+            color: #fff;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 10px 18px;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer
+        }
+        
+        .btn.alt {
+            background: transparent;
+            color: var(--tx);
+            border-color: var(--bd)
+        }
+        
+        .add {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 16px;
+            text-align: start;
+            color: var(--tx);
+            font: inherit;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer
+        }
+        
+        .plus {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bt);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 1.6rem
+        }
+        
+        label {
+            display: block;
+            margin: 10px 0 4px;
+            font-weight: 600
+        }
+        
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--bd);
+            border-radius: 10px;
+            background: var(--in);
+            color: var(--tx);
+            font: inherit
+        }
+        
+        .pc {
+            cursor: pointer;
+            text-align: start;
+            color: var(--tx);
+            font: inherit;
+            border-inline-start-width: 8px
+        }
+        
+        .s-crit {
+            border-color: var(--red)
+        }
+        
+        .s-mod {
+            border-color: var(--amb)
+        }
+        
+        .s-ok {
+            border-color: var(--md)
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 99px;
+            font-weight: 700;
+            font-size: .85rem;
+            border: 2px solid currentColor
+        }
+        
+        .t-crit {
+            color: var(--red)
+        }
+        
+        .t-mod {
+            color: var(--amb)
+        }
+        
+        .t-ok {
+            color: var(--bt)
+        }
+        
+         :root[data-theme=dark] .t-ok {
+            color: var(--m)
+        }
+        
+        .met {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin: 12px 0
+        }
+        
+        .met b {
+            display: block;
+            font-size: 1.6rem
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse
+        }
+        
+        th,
+        td {
+            padding: 8px;
+            text-align: start;
+            border-bottom: 1px solid var(--bd)
+        }
+        
+        .chat {
+            height: 260px;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 10px 0
+        }
+        
+        .msg {
+            padding: 8px 12px;
+            border-radius: 12px;
+            max-width: 85%
+        }
+        
+        .bot {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            align-self: flex-start
+        }
+        
+        .me {
+            background: var(--bt);
+            color: #fff;
+            align-self: flex-end
+        }
+        
+        .row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+        
+        .avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--card);
+            border: 2px solid var(--bd);
+            display: grid;
+            place-items: center;
+            font-size: 2rem
+        }
+        
+        dialog {
+            border: 1px solid var(--bd);
+            border-radius: 16px;
+            background: var(--bg);
+            color: var(--tx);
+            padding: 20px;
+            width: min(480px, 92vw)
+        }
+        
+        dialog::backdrop {
+            background: rgba(0, 0, 0, .45);
+            backdrop-filter: blur(4px)
+        }
+        
+        .pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: p 1.2s infinite
+        }
+        
+        @keyframes p {
+            50% {
+                opacity: .25
+            }
+        }
+        
+        .nomo *,
+        .nomo {
+            animation: none!important;
+            transition: none!important
+        }
+        
+        .err {
+            color: var(--red);
+            font-weight: 600
+        }
+        
+        nav {
+            background: linear-gradient(180deg, #2B6A55, #235A48);
+            border-inline-end: 0;
+            color: #fff
+        }
+        
+        nav h2,
+         :root[data-theme=dark] nav h2 {
+            color: #BFE9D8
+        }
+        
+        nav button {
+            color: #E6F1EC
+        }
+        
+        nav button:hover {
+            background: rgba(255, 255, 255, .12)
+        }
+        
+        nav button[aria-current=page] {
+            background: #BFE9D8;
+            color: #12392d
+        }
+        
+        nav :focus-visible {
+            outline-color: #fff
+        }
+        
+        .glass {
+            box-shadow: 0 8px 24px rgba(20, 33, 28, .08)
+        }
+        
+        .auth {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 72px 16px 24px;
+            position: relative
+        }
+        
+        .auth-top {
+            position: absolute;
+            top: 16px;
+            inset-inline-end: 16px
+        }
+        
+        .auth-card {
+            width: min(440px, 100%);
+            padding: 28px;
+            background: rgba(255, 255, 255, .72)
+        }
+        
+         :root[data-theme=dark] .auth-card {
+            background: var(--card)
+        }
+        
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 16px
+        }
+        
+        .brand h1 {
+            margin: 0
+        }
+        
+        .brand p {
+            margin: 0;
+            opacity: .8;
+            font-size: .9rem
+        }
+        
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: var(--bt);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 1.5rem;
+            flex: none
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 6px;
+            padding: 4px;
+            border-radius: 12px;
+            background: rgba(42, 107, 85, .12);
+            margin-bottom: 8px
+        }
+        
+        .tabs button {
+            flex: 1;
+            padding: 10px;
+            border: 0;
+            border-radius: 9px;
+            background: transparent;
+            color: var(--tx);
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer
+        }
+        
+        .tabs button[aria-selected=true] {
+            background: var(--bt);
+            color: #fff
+        }
+        
+        .auth fieldset {
+            border: 0;
+            padding: 0;
+            margin: 0
+        }
+        
+        .auth legend {
+            font-weight: 600;
+            margin-top: 8px
+        }
+        
+        .auth fieldset label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 4px 0 0;
+            margin-inline-end: 14px;
+            font-weight: 500
+        }
+        
+        @media(max-width:700px) {
+            nav {
+                inset-block: auto 0;
+                inset-inline: 0;
+                width: auto;
+                flex-direction: row;
+                justify-content: space-around;
+                padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+                border-inline-end: 0;
+                border-top: 1px solid var(--bd)
+            }
+            nav h2,
+            nav span {
+                display: none
+            }
+            nav button {
+                flex-direction: column;
+                padding: 8px 20px
+            }
+            main {
+                margin-inline-start: 0;
+                padding: 16px 16px 100px
+            }
+        }
+        
+        .hd {
+            position: sticky;
+            top: 0;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 24px;
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--bd)
+        }
+        
+         :root[data-theme=dark] .hd {
+            background: rgba(14, 26, 21, .92)
+        }
+        
+        .hd .logo {
+            width: 44px;
+            height: 44px
+        }
+        
+        .hd .bn {
+            font-size: 1.4rem;
+            font-weight: 800
+        }
+        
+        .hd .sub {
+            margin: 0;
+            font-size: .85rem;
+            opacity: .8
+        }
+        
+        .hd .sp {
+            flex: 1
+        }
+        
+        .pill {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 99px;
+            background: var(--mt);
+            color: var(--bt);
+            font-size: .7rem;
+            font-weight: 800;
+            letter-spacing: .06em;
+            border: 1px solid var(--bd);
+            vertical-align: middle
+        }
+        
+         :root[data-theme=dark] .pill {
+            color: var(--m)
+        }
+        
+        nav {
+            background: var(--card);
+            color: var(--tx)
+        }
+        
+        nav button {
+            color: var(--tx)
+        }
+        
+        nav button:hover {
+            background: var(--mt)
+        }
+        
+        nav button[aria-current=page] {
+            background: var(--bt);
+            color: #fff
+        }
+        
+        nav :focus-visible {
+            outline-color: var(--tx)
+        }
+        
+        .navlab {
+            margin: 4px 10px 6px;
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .1em;
+            opacity: .7
+        }
+        
+        .api {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            padding: 12px 10px 4px;
+            border-top: 1px solid var(--bd);
+            font-family: ui-monospace, Consolas, monospace;
+            font-size: .8rem
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--m)
+        }
+        
+        .isef {
+            margin-top: 10px;
+            padding: 14px;
+            border-radius: 16px;
+            background: linear-gradient(160deg, #2E7660, #2A6B55);
+            color: #fff
+        }
+        
+        .isef b {
+            display: block;
+            color: #CDEFE0;
+            font-size: .9rem
+        }
+        
+        .isef q {
+            display: block;
+            margin: 6px 0;
+            font-weight: 700
+        }
+        
+        .isef small {
+            color: #CDEFE0
+        }
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 6px 20px rgba(20, 33, 28, .06);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px)
+        }
+        
+        .mono {
+            font-family: ui-monospace, Consolas, monospace
+        }
+        
+        .bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 18px
+        }
+        
+        .bar input {
+            flex: 1 1 200px;
+            width: auto
+        }
+        
+        .bar select {
+            width: auto;
+            flex: 0 0 auto
+        }
+        
+        .add2 {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem
+        }
+        
+        .grid3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px
+        }
+        
+        .pc.card {
+            cursor: pointer;
+            text-align: start;
+            color: var(--tx);
+            font: inherit;
+            display: block;
+            width: 100%;
+            transition: transform .15s
+        }
+        
+        .pc.card:hover {
+            transform: translateY(-2px)
+        }
+        
+        .pc.s-crit {
+            border: 3px solid var(--red)
+        }
+        
+        .pc.s-mod {
+            border: 2px solid #E5B84B
+        }
+        
+        .pc.s-ok {
+            border: 1px solid var(--bd)
+        }
+        
+        .ph {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+        
+        .pn {
+            flex: 1;
+            min-width: 0
+        }
+        
+        .pn b {
+            display: block;
+            font-size: 1.1rem
+        }
+        
+        .pn span {
+            font-size: .8rem;
+            opacity: .75
+        }
+        
+        .av {
+            flex: none;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            background: linear-gradient(135deg, #D8F3E8, #9ED9BF);
+            color: #14392c
+        }
+        
+        .rk {
+            font-size: .7rem;
+            font-weight: 800;
+            letter-spacing: .04em;
+            padding: 5px 10px;
+            border-radius: 99px;
+            border: 1px solid currentColor;
+            white-space: nowrap
+        }
+        
+        .b-crit {
+            background: rgba(179, 38, 30, .1)
+        }
+        
+        .b-mod {
+            background: rgba(229, 184, 75, .2)
+        }
+        
+        .b-ok {
+            background: var(--mt)
+        }
+        
+        .bc {
+            margin: 12px 0;
+            font-weight: 600
+        }
+        
+        .mx {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 12px;
+            border: 1px solid var(--bd);
+            border-radius: 14px;
+            background: var(--mt);
+            text-align: center
+        }
+        
+        .mx small {
+            display: block;
+            opacity: .75
+        }
+        
+        .mx b {
+            font-size: 1.2rem
+        }
+        
+        .gf {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--bd);
+            font-size: .9rem
+        }
+        
+        .dh {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+        
+        .ibox {
+            padding: 10px 14px;
+            border: 1px solid var(--bd);
+            border-radius: 14px;
+            background: var(--mt)
+        }
+        
+        .ibox small {
+            display: block;
+            opacity: .75
+        }
+        
+        .chip {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 8px;
+            background: var(--mt);
+            border: 1px solid var(--bd);
+            font-size: .8rem;
+            vertical-align: middle
+        }
+        
+        .two {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+            margin: 18px 0
+        }
+        
+        @media(min-width:701px) {
+            nav {
+                inset-block: 100px auto;
+                inset-inline-start: 16px;
+                width: 228px;
+                border-radius: 20px;
+                border: 1px solid var(--bd);
+                padding: 14px 12px;
+                max-height: calc(100vh - 116px);
+                overflow: auto;
+                gap: 4px
+            }
+            main {
+                margin-inline-start: 268px;
+                padding-top: 24px
+            }
+        }
+        
+        @media(max-width:1000px) {
+            .hd .sub {
+                display: none
+            }
+        }
+        
+        @media(max-width:700px) {
+            .isef,
+            .api,
+            .navlab,
+            .hd .pill.ed {
+                display: none
+            }
+            .hd {
+                padding: 10px 14px;
+                padding-top: calc(10px + env(safe-area-inset-top, 0px))
+            }
+            .hd .bn {
+                font-size: 1.2rem
+            }
+            nav {
+                background: var(--card)
+            }
+        }
+        /* ================================
+   MINDPULSE - FINAL DESIGN UPDATE
+================================ */
+        
+         :root {
+            --bt: #129a84;
+            --m: #65cdb1;
+            --ml: #e4f7f1;
+            --md: #087c69;
+            --sage: #b7e3d5;
+            --mt: #e8f7f2;
+            --bg: #f3faf8;
+            --tx: #18332c;
+            --card: rgba(255, 255, 255, .82);
+            --bd: rgba(18, 154, 132, .18);
+            --in: rgba(255, 255, 255, .92);
+            --shadow: 0 8px 28px rgba(18, 80, 68, .08);
+            --shadow-hover: 0 14px 35px rgba(18, 80, 68, .14);
+        }
+        
+         :root[data-theme="dark"] {
+            --bt: #35b99d;
+            --m: #65d8bb;
+            --ml: #193d34;
+            --md: #45c3a4;
+            --sage: #28594b;
+            --mt: rgba(53, 185, 157, .13);
+            --bg: #101c19;
+            --tx: #e5f4ef;
+            --card: rgba(27, 48, 42, .82);
+            --bd: rgba(101, 216, 187, .19);
+            --in: #172b25;
+            --shadow: 0 8px 28px rgba(0, 0, 0, .18);
+            --shadow-hover: 0 14px 35px rgba(0, 0, 0, .28);
+        }
+        /* General */
+        
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: radial-gradient( circle at 10% 10%, rgba(18, 154, 132, .08), transparent 35%), linear-gradient( 135deg, var(--bg), color-mix(in srgb, var(--sage) 18%, var(--bg)));
+            transition: background .3s ease, color .3s ease;
+        }
+        /* Header */
+        
+        .hd {
+            background: rgba(255, 255, 255, .68);
+            backdrop-filter: blur(22px) saturate(160%);
+            -webkit-backdrop-filter: blur(22px) saturate(160%);
+            border-bottom: 1px solid var(--bd);
+            box-shadow: 0 4px 20px rgba(18, 80, 68, .04);
+            transition: background .3s ease;
+        }
+        
+         :root[data-theme="dark"] .hd {
+            background: rgba(16, 28, 25, .72);
+        }
+        /* Desktop Navigation */
+        
+        @media (min-width: 701px) {
+            nav {
+                background: rgba(255, 255, 255, .68);
+                backdrop-filter: blur(22px) saturate(160%);
+                -webkit-backdrop-filter: blur(22px) saturate(160%);
+                border: 1px solid var(--bd);
+                box-shadow: var(--shadow);
+            }
+             :root[data-theme="dark"] nav {
+                background: rgba(27, 48, 42, .78);
+            }
+            nav button {
+                border-radius: 13px;
+                transition: background .25s ease, color .25s ease, transform .25s ease;
+            }
+            nav button:hover {
+                background: var(--mt);
+                transform: translateX(3px);
+            }
+            nav button[aria-current="page"] {
+                background: var(--bt);
+                color: white;
+                box-shadow: 0 5px 15px rgba(18, 154, 132, .2);
+            }
+        }
+        /* Cards */
+        
+        .glass,
+        .card,
+        .auth-card {
+            border: 1px solid var(--bd);
+            box-shadow: var(--shadow);
+            transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
+        }
+        
+        .pc.card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .grid3>*,
+        .grid>* {
+            animation: cardEnter .5s ease both;
+        }
+        
+        .grid3>*:nth-child(2),
+        .grid>*:nth-child(2) {
+            animation-delay: .06s;
+        }
+        
+        .grid3>*:nth-child(3),
+        .grid>*:nth-child(3) {
+            animation-delay: .12s;
+        }
+        /* Buttons */
+        
+        .btn {
+            background: var(--bt);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(18, 154, 132, .13);
+            transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+        
+        .btn:hover {
+            background: var(--md);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 18px rgba(18, 154, 132, .2);
+        }
+        
+        .btn:active {
+            transform: scale(.97);
+        }
+        
+        .btn.alt {
+            background: transparent;
+            color: var(--bt);
+            border-color: var(--bd);
+            box-shadow: none;
+        }
+        
+        .btn.alt:hover {
+            background: var(--mt);
+            color: var(--md);
+        }
+        /* Inputs */
+        
+        input,
+        select,
+        textarea {
+            border: 1.5px solid var(--bd);
+            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--bt);
+            box-shadow: 0 0 0 4px rgba(18, 154, 132, .11);
+        }
+        /* Logo */
+        
+        .logo {
+            background: linear-gradient(135deg, #129a84, #087c69);
+            box-shadow: 0 6px 18px rgba(18, 154, 132, .2);
+        }
+        /* Status */
+        
+        .t-ok {
+            color: var(--bt);
+        }
+        /* Page animations */
+        
+        @keyframes pageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes cardEnter {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Mobile Navigation */
+        
+        @media (max-width: 700px) {
+            nav {
+                position: fixed;
+                inset: auto 12px calc(10px + env(safe-area-inset-bottom, 0px)) 12px;
+                width: auto;
+                height: 70px;
+                padding: 7px 12px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-around;
+                gap: 0;
+                background: rgba(255, 255, 255, .76);
+                backdrop-filter: blur(24px) saturate(170%);
+                -webkit-backdrop-filter: blur(24px) saturate(170%);
+                border: 1px solid rgba(18, 154, 132, .2);
+                border-radius: 22px;
+                box-shadow: 0 8px 30px rgba(10, 70, 58, .13);
+                z-index: 20;
+            }
+             :root[data-theme="dark"] nav {
+                background: rgba(25, 48, 41, .88);
+                border-color: rgba(101, 216, 187, .2);
+            }
+            nav h2,
+            nav .navlab,
+            nav .api,
+            nav .isef,
+            nav button span {
+                display: none;
+            }
+            nav button {
+                flex: 1;
+                width: 52px;
+                height: 52px;
+                max-width: 65px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background: transparent;
+                color: var(--tx);
+                transition: background .25s ease, transform .25s ease, color .25s ease;
+            }
+            nav button svg {
+                width: 23px;
+                height: 23px;
+            }
+            /* Home in the middle */
+            nav button[data-go="profile"] {
+                order: 1;
+            }
+            nav button[data-go="home"] {
+                order: 2;
+            }
+            nav button[data-go="settings"] {
+                order: 3;
+            }
+            /* Active circular icon */
+            nav button[aria-current="page"] {
+                background: var(--bt);
+                color: #fff;
+                border-radius: 50%;
+                box-shadow: 0 5px 15px rgba(18, 154, 132, .25);
+                transform: translateY(-3px);
+            }
+            nav button:hover {
+                background: var(--mt);
+            }
+            nav button[aria-current="page"]:hover {
+                background: var(--bt);
+            }
+            main {
+                padding: 16px 14px 110px !important;
+            }
+            .hd {
+                padding: 10px 14px;
+                padding-top: calc(10px + env(safe-area-inset-top, 0px));
+            }
+            .hd .logo {
+                width: 40px;
+                height: 40px;
+            }
+            .hd .bn {
+                font-size: 1.2rem;
+            }
+            .card,
+            .glass {
+                border-radius: 17px;
+            }
+            .grid3 {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Reduced motion accessibility */
+        
+        .nomo *,
+        .nomo {
+            animation: none !important;
+            transition: none !important;
+            scroll-behavior: auto !important;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip" href="#main" data-i="skip">Skip to content</a>
+    <header id="hd" class="hd"></header>
+    <nav id="nav" aria-label="Main"></nav>
+    <main id="main" tabindex="-1"></main>
+    <div id="live" class="sr" role="status" aria-live="polite"></div>
+    <dialog id="dlg" aria-labelledby="dt"></dialog>
+    <script>
+        "use strict";
+        const I = {
+            en: {
+                skip: "Skip to content",
+                home: "Home",
+                profile: "Profile",
+                settings: "Settings",
+                welcome: "Welcome to MindPulse",
+                sub: "Real-time monitoring connecting patients, doctors and guardians.",
+                login: "Log in",
+                register: "Doctor registration",
+                logout: "Log out",
+                role: "I am a",
+                doctor: "Doctor",
+                patient: "Patient",
+                email: "Email or ID",
+                pass: "Password",
+                name: "Full name",
+                spec: "Medical ID / Specialty",
+                mail: "Email",
+                create: "Create account",
+                addP: "Add Patient",
+                age: "Age",
+                base: "Baseline condition",
+                emer: "Emergency contact",
+                save: "Save",
+                cancel: "Cancel",
+                back: "Back to patients",
+                pts: "My patients",
+                crit: "Critical",
+                mod: "Moderate",
+                ok: "Stable",
+                hr: "Heart rate",
+                trem: "Tremor index",
+                risk: "AI risk score",
+                bpm: "bpm",
+                chart: "Live pulse (last 30 s)",
+                logs: "History log",
+                time: "Time",
+                event: "Event",
+                live: "Live",
+                demo: "Demo logins (password demo123): doctor@mindpulse.com, patient1, guardian1",
+                bad: "Invalid credentials.",
+                cT: "Permission to share your health data",
+                cP: "Do you allow your doctor and your parents or guardians to view and monitor your health data in real time? You can change this later in your profile.",
+                agree: "I agree",
+                dec: "Not now",
+                chatT: "MindPulse assistant",
+                ph: "Type a message…",
+                send: "Send",
+                feel: "How are you feeling today?",
+                sleep: "I can’t sleep",
+                anx: "I feel anxious",
+                lang: "Language",
+                theme: "Theme",
+                light: "Light",
+                dark: "Dark",
+                hc: "High contrast",
+                ts: "Text size",
+                nm: "Reduce motion",
+                photo: "Change profile picture",
+                contact: "Contact info",
+                phone: "Phone number",
+                status: "Current health status",
+                perm: "Consent permissions",
+                pDoc: "Doctor access",
+                pPar: "Parent / guardian access",
+                on: "Granted",
+                off: "Not granted",
+                created: "Patient created. Share these login details securely:",
+                user: "Username",
+                tmp: "Temporary password",
+                sel: "Select",
+                saved: "Saved.",
+                rs: "Risk",
+                open: "Open record",
+                hi: "Hello",
+                hello: "Welcome back,",
+                r1: "Thanks for sharing. Try slow breathing: inhale 4 s, hold 4 s, exhale 6 s. Keep your medication schedule and drink water.",
+                r2: "Keep a regular bedtime, avoid screens one hour before sleep, and tell your doctor if it lasts more than 3 nights.",
+                r3: "Ground yourself: name 5 things you see and 3 you hear. If symptoms get worse, contact your doctor or emergency contact.",
+                r0: "I’m here to help. Tell me how you feel, or tap a suggestion. For emergencies call your emergency contact.",
+                f1: "Rest well, hydrate, and continue your prescribed routine.",
+                f2: "Log your mood below or tell me what worries you today.",
+                tag: "Intelligent hybrid system for neural & psychiatric monitoring",
+                useDemo: "Fill demo doctor account",
+                sysnav: "SYSTEM NAVIGATION",
+                i1: "Earlier Insights, Safer Tomorrows",
+                i2: "Technology for a Calmer, Brighter Mind",
+                ed: "POSTER EDITION",
+                pD: "Doctor Portal",
+                pP: "Patient View",
+                pG: "Guardian View",
+                r_crit: "CRITICAL RISK",
+                r_mod: "MODERATE RISK",
+                r_ok: "STABLE CONDITION",
+                search: "Search patient by name or ID…",
+                flt: "Filter patients",
+                all: "All Patients",
+                none: "No patients match.",
+                yrs: "yrs",
+                gua: "Guardian",
+                gT: "Linked guardian",
+                gN: "Guardian observations",
+                noN: "No notes yet.",
+                addN: "Add observation",
+                nph: "Write what you noticed today…",
+                up: "Improving",
+                dn: "Deteriorating",
+                fl: "Steady",
+                wait: "Waiting for the patient’s consent to share live data.",
+                gn: "Guardian name",
+                gph: "Guardian phone",
+                e1: "Tremor spike detected",
+                e2: "Heart rate above baseline",
+                e3: "Alert sent to doctor",
+                e4: "Normal rhythm",
+                e5: "Sleep quality low",
+                c1: "Critical: erratic pulse and tremor",
+                c2: "Moderate: elevated readings",
+                c3: "Stable: within baseline"
+            },
+            ar: {
+                skip: "تخطي إلى المحتوى",
+                home: "الرئيسية",
+                profile: "الملف الشخصي",
+                settings: "الإعدادات",
+                welcome: "مرحباً بك في مايند بلس",
+                sub: "مراقبة لحظية تربط المرضى والأطباء وأولياء الأمور.",
+                login: "تسجيل الدخول",
+                register: "تسجيل طبيب",
+                logout: "تسجيل الخروج",
+                role: "أنا",
+                doctor: "طبيب",
+                patient: "مريض",
+                email: "البريد أو المعرّف",
+                pass: "كلمة المرور",
+                name: "الاسم الكامل",
+                spec: "الرقم الطبي / التخصص",
+                mail: "البريد الإلكتروني",
+                create: "إنشاء حساب",
+                addP: "إضافة مريض",
+                age: "العمر",
+                base: "الحالة الأساسية",
+                emer: "جهة اتصال الطوارئ",
+                save: "حفظ",
+                cancel: "إلغاء",
+                back: "العودة للمرضى",
+                pts: "مرضاي",
+                crit: "حالة سيئة جداً",
+                mod: "حالة متوسطة",
+                ok: "حالة جيدة",
+                hr: "معدل النبض",
+                trem: "مؤشر الرعشة",
+                risk: "درجة الخطورة (ذكاء اصطناعي)",
+                bpm: "نبضة/د",
+                chart: "النبض المباشر (آخر ٣٠ ثانية)",
+                logs: "سجل الأحداث",
+                time: "الوقت",
+                event: "الحدث",
+                live: "مباشر",
+                demo: "حسابات تجريبية (كلمة المرور demo123): doctor@mindpulse.com ،patient1 ،guardian1",
+                bad: "بيانات غير صحيحة.",
+                cT: "إذن مشاركة بياناتك الصحية",
+                cP: "هل توافق على أن يطّلع طبيبك ووالداك أو ولي أمرك على بياناتك الصحية ويتابعوها لحظياً؟ يمكنك تغيير ذلك لاحقاً من ملفك الشخصي.",
+                agree: "أوافق",
+                dec: "ليس الآن",
+                chatT: "مساعد مايند بلس",
+                ph: "اكتب رسالة…",
+                send: "إرسال",
+                feel: "كيف تشعر اليوم؟",
+                sleep: "لا أستطيع النوم",
+                anx: "أشعر بالقلق",
+                lang: "اللغة",
+                theme: "المظهر",
+                light: "فاتح",
+                dark: "داكن",
+                hc: "تباين عالٍ",
+                ts: "حجم النص",
+                nm: "تقليل الحركة",
+                photo: "تغيير صورة الملف",
+                contact: "بيانات التواصل",
+                phone: "رقم الهاتف",
+                status: "الحالة الصحية الحالية",
+                perm: "أذونات الموافقة",
+                pDoc: "وصول الطبيب",
+                pPar: "وصول الوالدين / ولي الأمر",
+                on: "ممنوح",
+                off: "غير ممنوح",
+                created: "تم إنشاء المريض. شارك بيانات الدخول بشكل آمن:",
+                user: "اسم المستخدم",
+                tmp: "كلمة مرور مؤقتة",
+                sel: "اختر",
+                saved: "تم الحفظ.",
+                rs: "الخطورة",
+                open: "فتح السجل",
+                hi: "مرحباً",
+                hello: "أهلاً بعودتك،",
+                r1: "شكراً لمشاركتك. جرّب التنفس البطيء: شهيق ٤ ثوانٍ، حبس ٤، زفير ٦. التزم بمواعيد دوائك واشرب الماء.",
+                r2: "التزم بموعد نوم ثابت، وابتعد عن الشاشات قبل النوم بساعة، وأخبر طبيبك إذا استمر الأرق أكثر من ٣ ليالٍ.",
+                r3: "ركّز على الحاضر: سمِّ ٥ أشياء تراها و٣ أصوات تسمعها. وإذا زادت الأعراض تواصل مع طبيبك أو جهة الطوارئ.",
+                r0: "أنا هنا للمساعدة. أخبرني بما تشعر به أو اختر اقتراحاً. في الطوارئ اتصل بجهة الطوارئ.",
+                f1: "استرح جيداً، اشرب الماء، وواصل روتينك العلاجي.",
+                f2: "سجّل مزاجك أدناه أو أخبرني بما يقلقك اليوم.",
+                tag: "نظام هجين ذكي لمراقبة الحالة العصبية والنفسية",
+                useDemo: "تعبئة حساب الطبيب التجريبي",
+                sysnav: "التنقل",
+                i1: "اكتشاف مبكر، غدٌ أكثر أماناً",
+                i2: "تقنية لعقل أهدأ ومستقبل أكثر إشراقاً",
+                ed: "نسخة البوستر",
+                pD: "بوابة الطبيب",
+                pP: "واجهة المريض",
+                pG: "واجهة ولي الأمر",
+                r_crit: "حالة سيئة جداً",
+                r_mod: "حالة متوسطة",
+                r_ok: "حالة جيدة",
+                search: "ابحث عن مريض بالاسم أو الرقم…",
+                flt: "تصفية المرضى",
+                all: "كل المرضى",
+                none: "لا يوجد مرضى مطابقون.",
+                yrs: "سنة",
+                gua: "ولي الأمر",
+                gT: "ولي الأمر المرتبط",
+                gN: "ملاحظات ولي الأمر",
+                noN: "لا توجد ملاحظات بعد.",
+                addN: "إضافة ملاحظة",
+                nph: "اكتب ما لاحظته اليوم…",
+                up: "تحسّن",
+                dn: "تدهور",
+                fl: "مستقر",
+                wait: "بانتظار موافقة المريض على مشاركة البيانات المباشرة.",
+                gn: "اسم ولي الأمر",
+                gph: "هاتف ولي الأمر",
+                e1: "رصد ارتفاع في الرعشة",
+                e2: "النبض أعلى من المعتاد",
+                e3: "تم إرسال تنبيه للطبيب",
+                e4: "نبض طبيعي",
+                e5: "جودة النوم منخفضة",
+                c1: "حرجة: نبض غير منتظم ورعشة",
+                c2: "متوسطة: قراءات مرتفعة",
+                c3: "مستقرة: ضمن المعدل"
+            }
+        };
+        const $ = s => document.querySelector(s),
+            esc = s => String(s).replace(/[&<>"']/g, c => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            }[c]));
+        const S = {
+            lang: "en",
+            theme: "light",
+            hc: false,
+            fs: 16,
+            nm: false,
+            user: null,
+            view: "home",
+            pid: null,
+            tick: null
+        };
+        try {
+            Object.assign(S, JSON.parse(localStorage.getItem("mp-s") || "{}"))
+        } catch (e) {}
+        S.user = null;
+        S.view = "home";
+        const t = k => I[S.lang][k] || k,
+            L = o => typeof o === "string" ? o : o[S.lang];
+        const P = [{
+            id: 1,
+            n: {
+                en: "Omar Hassan",
+                ar: "عمر حسن"
+            },
+            age: 17,
+            lv: "crit",
+            hr: 128,
+            tr: 8.4,
+            rk: 92,
+            eeg: 14.2,
+            ec: "+20 122 555 0191",
+            b: {
+                en: "Epilepsy risk monitoring",
+                ar: "مراقبة خطر الصرع"
+            },
+            c: "c1"
+        }, {
+            id: 2,
+            n: {
+                en: "Laila Adel",
+                ar: "ليلى عادل"
+            },
+            age: 14,
+            lv: "mod",
+            hr: 96,
+            tr: 4.1,
+            rk: 55,
+            eeg: 8.7,
+            ec: "+20 122 555 0192",
+            b: {
+                en: "Anxiety disorder",
+                ar: "اضطراب القلق"
+            },
+            c: "c2"
+        }, {
+            id: 3,
+            n: {
+                en: "Youssef Samir",
+                ar: "يوسف سمير"
+            },
+            age: 16,
+            lv: "ok",
+            hr: 72,
+            tr: 1.2,
+            rk: 12,
+            eeg: 4,
+            ec: "+20 122 555 0193",
+            b: {
+                en: "Sleep irregularity",
+                ar: "اضطراب النوم"
+            },
+            c: "c3"
+        }];
+        const docs = [{
+            mail: "doctor@mindpulse.com",
+            pw: "demo123",
+            name: "Dr. Demo",
+            spec: "Neurology"
+        }];
+        const pats = [{
+            id: "patient1",
+            pw: "demo123",
+            name: "Youssef Samir",
+            first: true,
+            consent: false,
+            phone: "",
+            pic: "",
+            pid: 3
+        }];
+        const guards = [{
+            id: "guardian1",
+            pw: "demo123",
+            pid: 3,
+            name: {
+                en: "Mona Samir",
+                ar: "منى سمير"
+            },
+            rel: {
+                en: "Mother",
+                ar: "الأم"
+            },
+            phone: "+20 100 555 0103",
+            notes: [{
+                d: "2026-11-04",
+                x: {
+                    en: "Slept well, calmer in the evening.",
+                    ar: "نام جيداً وكان أهدأ مساءً."
+                }
+            }]
+        }, {
+            id: "guardian2",
+            pw: "demo123",
+            pid: 1,
+            name: {
+                en: "Hassan Ali",
+                ar: "حسن علي"
+            },
+            rel: {
+                en: "Father",
+                ar: "الأب"
+            },
+            phone: "+20 100 555 0101",
+            notes: [{
+                d: "2026-11-05",
+                x: {
+                    en: "Hand tremor after breakfast, lasted about 10 minutes.",
+                    ar: "رعشة في اليد بعد الإفطار استمرت حوالي ١٠ دقائق."
+                }
+            }, {
+                d: "2026-11-06",
+                x: {
+                    en: "Refused medication this morning.",
+                    ar: "رفض الدواء هذا الصباح."
+                }
+            }]
+        }, {
+            id: "guardian3",
+            pw: "demo123",
+            pid: 2,
+            name: {
+                en: "Hala Adel",
+                ar: "هالة عادل"
+            },
+            rel: {
+                en: "Mother",
+                ar: "الأم"
+            },
+            phone: "+20 100 555 0102",
+            notes: []
+        }];
+        const ICO = {
+            home: '<path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/>',
+            profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7z"/>',
+            settings: '<path d="M12 8a4 4 0 100 8 4 4 0 000-8zm9 5v-2l-2.1-.7a7 7 0 00-.7-1.6l1-2-1.4-1.4-2 1a7 7 0 00-1.6-.7L13 3h-2l-.7 2.1a7 7 0 00-1.6.7l-2-1L5.3 6.2l1 2a7 7 0 00-.7 1.6L3.5 11v2l2.1.7c.2.6.4 1.1.7 1.6l-1 2 1.4 1.4 2-1c.5.3 1 .5 1.6.7L11 21h2l.7-2.1c.6-.2 1.1-.4 1.6-.7l2 1 1.4-1.4-1-2c.3-.5.5-1 .7-1.6z"/>'
+        };
+
+        function save() {
+            try {
+                localStorage.setItem("mp-s", JSON.stringify({
+                    lang: S.lang,
+                    theme: S.theme,
+                    hc: S.hc,
+                    fs: S.fs,
+                    nm: S.nm
+                }))
+            } catch (e) {}
+        }
+
+        function say(m) {
+            const l = $("#live");
+            l.textContent = "";
+            setTimeout(() => l.textContent = m, 60)
+        }
+
+        function apply() {
+            const h = document.documentElement;
+            h.lang = S.lang;
+            h.dir = S.lang === "ar" ? "rtl" : "ltr";
+            h.dataset.theme = S.theme;
+            h.classList.toggle("hc", S.hc);
+            h.classList.toggle("nomo", S.nm);
+            h.style.setProperty("--fs", S.fs + "px");
+            document.title = "MindPulse";
+            document.querySelector(".skip").textContent = t("skip")
+        }
+
+        function go(v, pid) {
+            clearInterval(S.tick);
+            S.view = v;
+            S.pid = pid || null;
+            render();
+            $("#main").focus()
+        }
+
+        function render() {
+            apply();
+            const au = !S.user,
+                mn = $("#main");
+            $("#nav").style.display = au ? "none" : "";
+            mn.style.marginInlineStart = au ? "0" : "";
+            mn.style.maxWidth = au ? "none" : "";
+            mn.style.padding = au ? "0" : "";
+            $("#hd").style.display = au ? "none" : "";
+            if (au) {
+                mn.innerHTML = authHTML();
+                authBind();
+                return
+            }
+            hdr();
+            $("#nav").innerHTML = '<p class="navlab">' + t("sysnav") + '</p>' + ["home", "profile", "settings"].map(k => `<button data-go="${k}" ${S.view===k||(k==="home"&&S.view==="detail")?'aria-current="page"':""}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${ICO[k]}</svg><span>${t(k)}</span></button>`).join("") + '<div class="api"><span class="dot" aria-hidden="true"></span>FastAPI · ' + (API.mock ? "mock" : "live") + '</div>';
+            $("#main").innerHTML = V[S.view]();
+
+            const page = $("#main");
+            page.style.animation = "none";
+            void page.offsetWidth;
+            page.style.animation = "pageEnter .4s ease both";
+
+            (B[S.view] || (() => {}))();
+        }
+        document.addEventListener("click", e => {
+            const g = e.target.closest("[data-go]");
+            if (g) {
+                go(g.dataset.go, g.dataset.pid)
+            }
+        });
+
+        function dlg(html, after) {
+            const d = $("#dlg");
+            d.innerHTML = html;
+            d.showModal();
+            const f = d.querySelector("input,select,button");
+            f && f.focus();
+            after && after(d);
+            d.querySelectorAll("[data-x]").forEach(b => b.onclick = () => d.close())
+        }
+        /* ---------- views ---------- */
+        const V = {
+                home() {
+                    const u = S.user;
+                    if (!u) return `<h1>${t("welcome")}</h1><div class="glass"><p>${t("sub")}</p><div class="row"><button class="btn" id="bl">${t("login")}</button><button class="btn alt" id="br">${t("register")}</button></div><p><small>${t("demo")}</small></p></div>`;
+                    if (u.type === "doc") return dHome(u);
+                    return `<h1>${t("hello")} ${esc(L(u.name))}</h1>${u.type==="gua"?gStat(u):""}<section class="glass" aria-labelledby="ct" style="margin-top:16px"><h2 id="ct">${t("chatT")}</h2><div class="chat" id="chat" role="log" aria-live="polite"><div class="msg bot">${t("r0")}</div></div><div class="row"><button class="btn alt q" data-q="f">${t("feel")}</button><button class="btn alt q" data-q="s">${t("sleep")}</button><button class="btn alt q" data-q="a">${t("anx")}</button></div><div class="row" style="margin-top:8px"><label for="ci" class="sr">${t("ph")}</label><input id="ci" placeholder="${t("ph")}" style="flex:1"><button class="btn" id="cs">${t("send")}</button></div></section>`
+                },
+                detail() {
+                    const p = P.concat(extra).find(x => x.id == S.pid);
+                    return `<button class="btn alt" data-go="home">← ${t("back")}</button><div class="card dh" style="margin:12px 0">${av(p,64)}<div style="flex:1;min-width:200px"><h1 style="margin:0">${esc(L(p.n))} <span class="chip mono">${mpid(p)}</span></h1><p style="margin:4px 0 0">${t("base")}: <b>${esc(L(p.b))}</b></p></div><div class="ibox"><small>${t("emer")}</small><b>${esc(p.ec||"—")}</b></div><div class="ibox"><small>${t("gT")}</small><b>${gName(p)}</b></div></div><div class="glass s-${p.lv}" style="border-inline-start:8px solid"><span class="badge t-${p.lv}">${t(p.lv)}</span> <span class="t-${p.lv}"><span class="pulse" aria-hidden="true"></span> ${t("live")}</span><div class="met"><div><b id="mh">${p.hr}</b>${t("hr")} (${t("bpm")})</div><div><b id="mt">${p.tr}</b>${t("trem")}</div><div><b>${p.rk}%</b>${t("risk")}</div><div><b>${p.eeg} Hz</b>EEG</div></div><p>${t(p.c||"c3")}</p></div><section class="glass" style="margin-top:16px"><h2>${t("chart")}</h2><svg id="ch" viewBox="0 0 300 100" width="100%" role="img" aria-label="${t("chart")}" preserveAspectRatio="none"><polyline id="pl" fill="none" stroke="currentColor" stroke-width="2" class="t-${p.lv}"/></svg></section><section class="glass" style="margin-top:16px"><h2>${t("logs")}</h2><table><thead><tr><th>${t("time")}</th><th>${t("event")}</th></tr></thead><tbody>${["e1","e2","e3","e4","e5"].map((e,i)=>`<tr><td>${String(8+i*2).padStart(2,"0")}:${i*7+10}</td><td>${t(p.lv==="ok"&&i<3?"e4":e)}</td></tr>`).join("")}</tbody></table></section>${gSec(p)}`},
+profile(){const u=S.user;if(!u)return`<h1>${t("profile")}</h1><div class="glass"><button class="btn" id="bl">${t("login")}</button></div>`;
+if(u.type==="doc")return`<h1>${t("profile")}</h1><div class="card"><div class="dh">${av({n:u.name},84)}<div><h2 style="margin:0">${esc(u.name)}</h2><p style="margin:2px 0 6px">${t("doctor")}</p><span class="chip mono">${esc(u.spec)}</span></div></div><div class="two"><div class="ibox"><small>${t("mail")}</small><b>${esc(u.mail)}</b></div><div class="ibox"><small>FastAPI Async Engine</small><b class="mono">${API.mock?"mock":"live"} · PostgreSQL TimescaleDB</b></div></div><p><button class="btn alt" id="lo">${t("logout")}</button></p></div>`;
+if(u.type==="gua")return gProf(u);return`<h1>${t("profile")}</h1><div class="glass"><div class="row">${u.pic?`<img class="avatar" src="${u.pic}" alt="">`:`<div class="avatar" aria-hidden="true">🙂</div>`}<div><h2>${esc(u.name)}</h2><label for="pf" class="btn alt" style="display:inline-block;cursor:pointer">${t("photo")}</label><input id="pf" type="file" accept="image/*" class="sr"></div></div>
+<h3 style="margin-top:16px">${t("contact")}</h3><label for="ph">${t("phone")}</label><input id="ph" type="tel" value="${esc(u.phone)}"><p><button class="btn" id="sp" style="margin-top:10px">${t("save")}</button></p>
+<h3>${t("status")}</h3><p><span class="badge t-ok">● ${t("ok")}</span></p>
+<h3>${t("perm")}</h3><p>${t("pDoc")}: <b>${u.consent?t("on"):t("off")}</b><br>${t("pPar")}: <b>${u.consent?t("on"):t("off")}</b></p><button class="btn alt" id="tc">${u.consent?t("dec"):t("agree")}</button> <button class="btn alt" id="lo">${t("logout")}</button></div>`},
+settings(){return`<h1>${t("settings")}</h1><div class="glass"><label for="sl">${t("lang")}</label><select id="sl"><option value="en" ${S.lang==="en"?"selected":""}>English</option><option value="ar" ${S.lang==="ar"?"selected":""}>العربية</option></select>
+<label for="st">${t("theme")}</label><select id="st"><option value="light" ${S.theme==="light"?"selected":""}>${t("light")}</option><option value="dark" ${S.theme==="dark"?"selected":""}>${t("dark")}</option></select>
+<label for="sf">${t("ts")}</label><select id="sf">${[16,18,20,24].map(n=>`<option ${S.fs==n?"selected":""} value="${n}">${n}px</option>`).join("")}</select>
+<label><input type="checkbox" id="sh" style="width:auto" ${S.hc?"checked":""}> ${t("hc")}</label><label><input type="checkbox" id="sm" style="width:auto" ${S.nm?"checked":""}> ${t("nm")}</label><p style="margin-top:16px"><button class="btn" id="slo">${t("logout")}</button></p></div>`}};
+const extra=[];
+function pOf(id){return P.concat(extra).find(x=>x.id==id)}
+function consentOf(pid){const q=pats.find(x=>x.pid===pid);return q?q.consent:true}
+function notesList(g){return g.notes.length?`<ul>${g.notes.map(n=>`<li><small>${esc(n.d)}</small> — ${esc(L(n.x))}</li>`).join("")}</ul>`:`<p>${t("noN")}</p>`}
+function gSec(p){const g=guards.find(x=>x.pid===p.id);return`<section class="glass" style="margin-top:16px" aria-labelledby="gl"><h2 id="gl">${t("gT")}</h2>${g?`<p><b>${esc(L(g.name))}</b> · ${esc(L(g.rel))}<br>${esc(g.phone)}</p><h3>${t("gN")}</h3>${notesList(g)}`:`<p>${t("noN")}</p>`}</section>`}
+function gStat(u){const p=pOf(u.pid);if(!consentOf(u.pid))return`<div class="glass" role="status">${t("wait")}</div>`;return`<section class="glass s-${p.lv}" style="border-inline-start:8px solid" aria-labelledby="gs"><h2 id="gs">${esc(L(p.n))}</h2><span class="badge t-${p.lv}">${t(p.lv)}</span> <span id="gt" class="badge t-mod">→ ${t("fl")}</span> <span class="t-${p.lv}"><span class="pulse" aria-hidden="true"></span> ${t("live")}</span><div class="met"><div><b id="gh">${p.hr}</b>${t("hr")} (${t("bpm")})</div><div><b>${p.rk}%</b>${t("risk")}</div></div></section>`}
+function gProf(u){const p=pOf(u.pid),q=pats.find(x=>x.pid===u.pid),c=consentOf(u.pid);return`<h1>${t("profile")}</h1><div class="glass"><div class="row">${q&&q.pic?`<img class="avatar" src="${q.pic}" alt="">`:`<div class="avatar" aria-hidden="true">🙂</div>`}<div><h2>${esc(L(p.n))}</h2><p>${t("age")}: ${esc(p.age)}<br>${esc(L(p.b))}</p></div></div><h3>${t("status")}</h3><p>${c?`<span class="badge t-${p.lv}">${t(p.lv)}</span>`:t("wait")}</p><h3>${t("perm")}</h3><p>${c?t("on"):t("off")}</p></div><section class="glass" style="margin-top:16px" aria-labelledby="gn1"><h2 id="gn1">${t("gN")}</h2>${notesList(u)}<label for="nt">${t("addN")}</label><textarea id="nt" rows="3" placeholder="${t("nph")}"></textarea><p><button class="btn" id="an">${t("save")}</button> <button class="btn alt" id="lo">${t("logout")}</button></p></section>`}
+function gLive(){const u=S.user,p=pOf(u.pid);if(!p||!consentOf(u.pid))return;const amp={crit:14,mod:8,ok:4}[p.lv],h=[],el=$("#gt"),avg=a=>a.reduce((x,y)=>x+y,0)/a.length;let last="fl",dr=0;
+S.tick=setInterval(()=>{dr+=(Math.random()-.5)*amp*.5;const v=Math.round(p.hr+dr+(Math.random()-.5)*amp);h.push(v);if(h.length>12)h.shift();$("#gh").textContent=v;if(h.length<8)return;const d=avg(h.slice(-4))-avg(h.slice(0,4)),k=d<-3?"up":d>3?"dn":"fl";el.className="badge "+{up:"t-ok",dn:"t-crit",fl:"t-mod"}[k];el.textContent={up:"▲ ",dn:"▼ ",fl:"→ "}[k]+t(k);if(k!==last){last=k;say(t(k)+": "+L(p.n))}},2000)}
+/* ===== FastAPI client layer. mock=true uses local data; set false + base to your server.
+ PostgreSQL/TimescaleDB schema: users(id,role,email,pw_hash) · patients(id,doctor_id,name,age,baseline,emergency) · guardians(id,patient_id,name,phone)
+ consents(patient_id,doctor_ok,guardian_ok,at) · vitals(patient_id,ts,hr,tremor,risk) hypertable, index (patient_id,ts DESC) · guardian_notes(id,guardian_id,patient_id,ts,body) ===== */
+const API={base:"/api/v1",mock:true,token:null,budget:200,
+async req(m,p,b){const c=new AbortController(),t0=performance.now(),to=setTimeout(()=>c.abort(),3000);try{const r=await fetch(this.base+p,{method:m,signal:c.signal,headers:{"Content-Type":"application/json",...(this.token?{Authorization:"Bearer "+this.token}:{})},body:b?JSON.stringify(b):undefined});if(!r.ok)throw new Error(r.status);return await r.json()}finally{clearTimeout(to);const ms=performance.now()-t0;if(ms>this.budget)console.warn("API over budget",p,Math.round(ms)+"ms")}},
+login(role,id,pw){return this.mock?Promise.resolve((role==="doc"?docs:role==="pat"?pats:guards).find(o=>(o.mail||o.id)===id&&o.pw===pw)||null):this.req("POST","/auth/login",{role,id,password:pw}).then(r=>(this.token=r.access_token,r.user))},
+patients(){return this.mock?Promise.resolve(P.concat(extra)):this.req("GET","/patients")},
+patient(id){return this.mock?Promise.resolve(pOf(id)):this.req("GET","/patients/"+id)},
+notes(pid){return this.mock?Promise.resolve((guards.find(g=>g.pid===pid)||{notes:[]}).notes):this.req("GET",`/patients/${pid}/notes`)},
+addNote(pid,body){if(this.mock){(guards.find(g=>g.pid===pid)||{notes:[]}).notes.push({d:new Date().toISOString().slice(0,10),x:body});return Promise.resolve(true)}return this.req("POST",`/patients/${pid}/notes`,{body})},
+setConsent(pid,v){if(this.mock){const q=pats.find(x=>x.pid===pid);if(q)q.consent=v;return Promise.resolve(true)}return this.req("PATCH",`/patients/${pid}/consent`,{doctor:v,guardian:v})},
+live(pid,cb){if(this.mock){const i=setInterval(()=>cb({ts:Date.now(),hr:(pOf(pid)||{hr:72}).hr+Math.round((Math.random()-.5)*8)}),2000);return()=>clearInterval(i)}
+const w=new WebSocket(location.origin.replace(/^http/,"ws")+this.base+"/ws/vitals/"+pid+"?token="+this.token);w.onmessage=e=>cb(JSON.parse(e.data));return()=>w.close()}};
+function authHTML(){const lg=S.tab!=="reg";return`<div class="auth"><div class="auth-top"><button class="btn alt" id="al" aria-label="${t("lang")}">${S.lang==="en"?"العربية":"English"}</button></div><div class="auth-card glass"><div class="brand"><span class="logo" aria-hidden="true">♥</span><div><h1>MindPulse</h1><p>${t("tag")}</p></div></div><div class="tabs" role="tablist"><button role="tab" id="tl" aria-selected="${lg}">${t("login")}</button><button role="tab" id="tr" aria-selected="${!lg}">${t("register")}</button></div>${lg?`<form id="f"><fieldset><legend>${t("role")}</legend><label><input type="radio" name="r" value="doc" checked style="width:auto"> ${t("doctor")}</label><label><input type="radio" name="r" value="pat" style="width:auto"> ${t("patient")}</label><label><input type="radio" name="r" value="gua" style="width:auto"> ${t("gua")}</label></fieldset><label for="u">${t("email")}</label><input id="u" required autocomplete="username"><label for="p">${t("pass")}</label><input id="p" type="password" required autocomplete="current-password"><p id="er" class="err" role="alert"></p><button class="btn" style="width:100%">${t("login")}</button><button type="button" class="btn alt" id="dm" style="width:100%;margin-top:8px">${t("useDemo")}</button><p><small>${t("demo")}</small></p></form>`:`<form id="f"><label for="n">${t("name")}</label><input id="n" required><label for="s">${t("spec")}</label><input id="s" required><label for="m">${t("mail")}</label><input id="m" type="email" required><label for="p">${t("pass")}</label><input id="p" type="password" minlength="6" required autocomplete="new-password"><button class="btn" style="width:100%;margin-top:14px">${t("create")}</button></form>`}</div></div>`}
+function authBind(){$("#al").onclick=()=>{S.lang=S.lang==="en"?"ar":"en";save();render();$("#al").focus()};$("#tl").onclick=()=>{S.tab="login";render();$("#u").focus()};$("#tr").onclick=()=>{S.tab="reg";render();$("#n").focus()};const f=$("#f");
+if(S.tab==="reg"){f.onsubmit=e=>{e.preventDefault();const o={mail:$("#m").value,pw:$("#p").value,name:$("#n").value,spec:$("#s").value};docs.push(o);S.user=Object.assign(o,{type:"doc"});go("home");say(t("hello")+" "+o.name)}}
+else{$("#dm").onclick=()=>{$("#u").value="doctor@mindpulse.com";$("#p").value="demo123";f.querySelector("[value=doc]").checked=true};
+f.onsubmit=e=>{e.preventDefault();const r=f.querySelector("[name=r]:checked").value,u=$("#u").value.trim(),p=$("#p").value,x=r==="pat"?pats.find(o=>o.id===u&&o.pw===p):r==="doc"?docs.find(o=>o.mail===u&&o.pw===p):guards.find(o=>o.id===u&&o.pw===p);if(!x)return $("#er").textContent=t("bad");S.user=Object.assign(x,{type:r});go("home");say(t("hello")+" "+L(x.name));if(r==="pat"&&x.first){x.first=false;consentDlg()}}}}
+function mpid(p){return"MP-"+(p.id<100?100+p.id:p.id+4)}
+function av(p,s){s=s||52;const w=L(p.n).trim().split(/\s+/).map(x=>x[0]).slice(0,2).join("");return`<span class="av" aria-hidden="true" style="width:${s}px;height:${s}px;font-size:${Math.round(s/2.6)}px">${esc(w)}</span>`}
+function gName(p){const g=guards.find(x=>x.pid===p.id);return g?esc(L(g.name))+" ("+esc(L(g.rel))+")":"—"}
+function pCard(p){return`<button class="card pc s-${p.lv}" data-go="detail" data-pid="${p.id}"><div class="ph">${av(p)}<div class="pn"><b>${esc(L(p.n))}</b><span class="mono">${mpid(p)} · ${esc(p.age)} ${t("yrs")}</span></div><span class="rk t-${p.lv} b-${p.lv}"><span aria-hidden="true">${p.lv==="crit"?"▲ ":p.lv==="mod"?"◆ ":"● "}</span>${t("r_"+p.lv)}</span></div><p class="bc">${esc(L(p.b))}</p><div class="mx"><div><small>${t("hr")}</small><b class="t-${p.lv}">${p.hr}</b> ${t("bpm")}</div><div><small>${t("trem")}</small><b>${p.tr}</b> /10</div><div><small>EEG</small><b>${p.eeg}</b> Hz</div></div><div class="gf"><span>🛡 ${gName(p)}</span><span aria-hidden="true">↗</span></div></button>`}
+function dList(){const f=(S.q||"").toLowerCase(),fl=S.flt||"all",l=P.concat(extra).filter(p=>(fl==="all"||p.lv===fl)&&(!f||(L(p.n)+" "+mpid(p)).toLowerCase().includes(f)));return l.map(pCard).join("")||`<p>${t("none")}</p>`}
+function dHome(u){const fl=S.flt||"all";return`<h1 class="sr">${t("pts")}</h1><div class="card bar"><button class="btn add2" id="ba"><span aria-hidden="true">+</span> ${t("addP")}</button><label class="sr" for="sq">${t("search")}</label><input id="sq" type="search" placeholder="${t("search")}" value="${esc(S.q||"")}"><label class="sr" for="sf2">${t("flt")}</label><select id="sf2"><option value="all">${t("all")}</option><option value="crit" ${fl==="crit"?"selected":""}>${t("crit")}</option><option value="mod" ${fl==="mod"?"selected":""}>${t("mod")}</option><option value="ok" ${fl==="ok"?"selected":""}>${t("ok")}</option></select></div><div class="grid3" id="pl">${dList()}</div>`}
+function hdr(){const u=S.user;$("#hd").innerHTML=`<span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></span><div><div class="bn">MindPulse <span class="pill ed">${t("ed")}</span></div><p class="sub">${t("tag")}</p></div><span class="sp"></span><span class="pill" style="font-size:.8rem;padding:8px 14px">${t({doc:"pD",pat:"pP",gua:"pG"}[u.type])}</span><button class="btn alt" id="hl">${S.lang==="en"?"العربية":"English"}</button>`;$("#hl").onclick=()=>{S.lang=S.lang==="en"?"ar":"en";save();render();$("#hl").focus()}}
+/* ---------- bindings ---------- */
+const B={
+home(){const l=$("#bl"),r=$("#br"),a=$("#ba");l&&(l.onclick=loginDlg);r&&(r.onclick=regDlg);a&&(a.onclick=addDlg);const sq=$("#sq");if(sq){const sf=$("#sf2");sq.oninput=sf.onchange=()=>{S.q=sq.value;S.flt=sf.value;$("#pl").innerHTML=dList()}}
+if(S.user&&S.user.type!=="doc")chat();if(S.user&&S.user.type==="gua")gLive()},
+profile(){const l=$("#bl");l&&(l.onclick=loginDlg);const o=$("#lo");o&&(o.onclick=()=>{S.user=null;say(t("logout"));go("home")});
+if(S.user&&S.user.type==="gua"){$("#an").onclick=()=>{const i=$("#nt"),v=i.value.trim();if(!v)return;S.user.notes.push({d:new Date().toISOString().slice(0,10),x:v});render();say(t("saved"));$("#nt").focus()}}
+if(!S.user||S.user.type!=="pat")return;
+$("#sp").onclick=()=>{S.user.phone=$("#ph").value;say(t("saved"))};
+$("#tc").onclick=()=>{S.user.consent=!S.user.consent;render();say(S.user.consent?t("on"):t("off"))};
+$("#pf").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{S.user.pic=r.result;render()};r.readAsDataURL(f)}},
+settings(){$("#slo").onclick=()=>{S.user=null;say(t("logout"));go("home")};$("#sl").onchange=e=>{S.lang=e.target.value;save();render();say(e.target.selectedOptions[0].text)};
+$("#st").onchange=e=>{S.theme=e.target.value;save();apply()};
+$("#sf").onchange=e=>{S.fs=+e.target.value;save();apply()};
+$("#sh").onchange=e=>{S.hc=e.target.checked;save();apply()};
+$("#sm").onchange=e=>{S.nm=e.target.checked;save();apply()}},
+detail(){const p=P.concat(extra).find(x=>x.id==S.pid),amp={crit:14,mod:8,ok:4}[p.lv],ser=Array.from({length:30},(_,i)=>p.hr+Math.sin(i/2)*amp*.5+(Math.random()-.5)*amp);let last=p.lv;
+const draw=()=>{const mn=Math.min(...ser)-2,mx=Math.max(...ser)+2;$("#pl").setAttribute("points",ser.map((v,i)=>`${i*10.3},${100-(v-mn)/(mx-mn)*100}`).join(" "))};draw();
+S.tick=setInterval(()=>{const v=Math.round(p.hr+(Math.random()-.5)*amp*1.5);ser.push(v);ser.shift();draw();$("#mh").textContent=v;$("#mt").textContent=(p.tr+(Math.random()-.5)*.6).toFixed(1);
+const lv=v>120?"crit":v>90?"mod":"ok";if(lv!==last){last=lv;say(t(lv)+": "+v+" "+t("bpm"))}},2000)}};
+/* ---------- dialogs ---------- */
+function loginDlg(){dlg(`<h2 id="dt">${t("login")}</h2><form id="f"><fieldset style="border:0;padding:0"><legend>${t("role")}</legend><label><input type="radio" name="r" value="doc" checked style="width:auto"> ${t("doctor")}</label><label><input type="radio" name="r" value="pat" style="width:auto"> ${t("patient")}</label><label><input type="radio" name="r" value="gua" style="width:auto"> ${t("gua")}</label></fieldset><label for="u">${t("email")}</label><input id="u" required autocomplete="username"><label for="p">${t("pass")}</label><input id="p" type="password" required autocomplete="current-password"><p id="er" class="err" role="alert"></p><div class="row"><button class="btn">${t("login")}</button><button type="button" class="btn alt" data-x>${t("cancel")}</button></div><p><small>${t("demo")}</small></p></form>`,d=>{d.querySelector("#f").onsubmit=e=>{e.preventDefault();const r=d.querySelector("[name=r]:checked").value,u=d.querySelector("#u").value.trim(),p=d.querySelector("#p").value;
+if(r!=="pat"){const x=r==="doc"?docs.find(o=>o.mail===u&&o.pw===p):guards.find(o=>o.id===u&&o.pw===p);if(!x)return d.querySelector("#er").textContent=t("bad");S.user=Object.assign(x,{type:r});d.close();go("home");say(t("hello")+" "+L(x.name))}
+else{const x=pats.find(o=>o.id===u&&o.pw===p);if(!x)return d.querySelector("#er").textContent=t("bad");S.user=Object.assign(x,{type:"pat"});d.close();go("home");if(x.first){x.first=false;consentDlg()}}}})}
+function consentDlg(){dlg(`<h2 id="dt">${t("cT")}</h2><p>${t("cP")}</p><div class="row"><button class="btn" id="ya">${t("agree")}</button><button class="btn alt" data-x>${t("dec")}</button></div>`,d=>{d.querySelector("#ya").onclick=()=>{S.user.consent=true;d.close();say(t("on"))}})}
+function regDlg(){dlg(`<h2 id="dt">${t("register")}</h2><form id="f"><label for="n">${t("name")}</label><input id="n" required><label for="s">${t("spec")}</label><input id="s" required><label for="m">${t("mail")}</label><input id="m" type="email" required><label for="p">${t("pass")}</label><input id="p" type="password" minlength="6" required><div class="row" style="margin-top:12px"><button class="btn">${t("create")}</button><button type="button" class="btn alt" data-x>${t("cancel")}</button></div></form>`,d=>{d.querySelector("#f").onsubmit=e=>{e.preventDefault();const o={mail:d.querySelector("#m").value,pw:d.querySelector("#p").value,name:d.querySelector("#n").value,spec:d.querySelector("#s").value};docs.push(o);S.user={type:"doc",...o};d.close();go("home")}})}
+function addDlg(){dlg(`<h2 id="dt">${t("addP")}</h2><form id="f"><label for="n">${t("name")}</label><input id="n" required><label for="a">${t("age")}</label><input id="a" type="number" min="1" max="120" required><label for="b">${t("base")}</label><input id="b" required><label for="e">${t("emer")}</label><input id="e" type="tel" required><label for="gn">${t("gn")}</label><input id="gn" required><label for="gp">${t("gph")}</label><input id="gp" type="tel" required><div class="row" style="margin-top:12px"><button class="btn">${t("save")}</button><button type="button" class="btn alt" data-x>${t("cancel")}</button></div></form>`,d=>{d.querySelector("#f").onsubmit=e=>{e.preventDefault();const id="patient"+(pats.length+1),pw=Math.random().toString(36).slice(2,8),n=d.querySelector("#n").value;
+const pid=100+extra.length,gid="guardian"+(guards.length+1),gpw=Math.random().toString(36).slice(2,8);pats.push({id,pw,name:n,first:true,consent:false,phone:"",pic:"",pid});guards.push({id:gid,pw:gpw,pid,name:d.querySelector("#gn").value,rel:{en:"Guardian",ar:"ولي الأمر"},phone:d.querySelector("#gp").value,notes:[]});extra.push({id:pid,n,age:d.querySelector("#a").value,lv:"ok",hr:74,tr:1.5,rk:10,eeg:4,ec:d.querySelector("#e").value,b:d.querySelector("#b").value,c:"c3"});
+d.innerHTML=`<h2 id="dt">${t("created")}</h2><p>${t("patient")} — ${t("user")}: <b>${id}</b><br>${t("tmp")}: <b>${pw}</b></p><p>${t("gua")} — ${t("user")}: <b>${gid}</b><br>${t("tmp")}: <b>${gpw}</b></p><button class="btn" data-x>OK</button>`;d.querySelector("[data-x]").onclick=()=>{d.close();render()};d.querySelector("button").focus();say(t("created"))}})}
+/* ---------- chatbot ---------- */
+function chat(){const log=$("#chat"),add=(c,x)=>{const m=document.createElement("div");m.className="msg "+c;m.textContent=x;log.append(m);log.scrollTop=log.scrollHeight};
+const reply=k=>setTimeout(()=>add("bot",k==="f"?t("f1")+" "+t("f2"):t({s:"r2",a:"r3",x:"r1"}[k]||"r0")),400);
+document.querySelectorAll(".q").forEach(b=>b.onclick=()=>{add("me",b.textContent);reply(b.dataset.q)});
+const send=()=>{const i=$("#ci"),v=i.value.trim();if(!v)return;add("me",v);i.value="";const l=v.toLowerCase();reply(/sleep|نوم|أرق/.test(l)?"s":/anx|قلق|خوف|توتر|worr/.test(l)?"a":/feel|sad|bad|حزين|تعب|شعور/.test(l)?"x":"f")};
+$("#cs").onclick=send;$("#ci").onkeydown=e=>{if(e.key==="Enter")send()}}
+render();
+    </script>
+</body>
+
+</html>
